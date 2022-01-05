@@ -24,7 +24,7 @@ accelerator:
 engine:
   merge:
     - include: [ "**" ]
-      exclude: [ "pom.xml", "settings.gradle", "readme.md", "kubernetes/**", "catalog/*.yaml" ]
+      exclude: [ "pom.xml", "settings.gradle", "readme.md", "kubernetes/**", "catalog/*.yaml", ".github/**" ]
     - include: [ "pom.xml", "settings.gradle" ]
       chain:
       - type: ReplaceText
