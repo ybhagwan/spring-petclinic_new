@@ -57,7 +57,7 @@ engine:
         - text: ": spring-petclinic"
           with: "': ' + #artifactId"
       - type: RewritePath
-        rewriteTo: "'kubernetes/' + #filename"
+        rewriteTo: "'config/' + #filename"
     - include: [ "kubernetes/tap/Tiltfile" ]
       condition: "#deploymentType == 'workload'"
       chain:
@@ -68,13 +68,12 @@ engine:
       - type: RewritePath
         rewriteTo: "#filename"
     - include: [ "catalog/*.yaml" ]
+      condition: "#deploymentType == 'workload'"
       chain:
       - type: ReplaceText
         substitutions:
         - text: spring-petclinic
           with: "#artifactId"
-      - type: RewritePath
-        rewriteTo: "#filename"
     - name: README
       type: Combo
       onConflict: Append
