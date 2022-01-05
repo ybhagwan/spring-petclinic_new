@@ -1,5 +1,7 @@
 # Deploying to Kubernetes
 
+> NOTE: The provided `config/workload.yaml` file uses the Git URL for this sample. When you want to modify the source, you must push the code to your own Git repository and then update the `spec.source.git` information in the `config/workload.yaml` file.
+
 ## Deploying to Kubernetes as a TAP workload with Tilt
 
 You can containerize this template app and deploy it as a Tanzu Application Platform (TAP) workload.
