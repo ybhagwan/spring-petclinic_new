@@ -51,22 +51,3 @@ curl <URL> -w'\n' -H 'Content-Type: text/plain' -d Fun
 ```
 
 This depends on the TAP installation having DNS configured for the Knative ingress.
-
-## Deploying to Kubernetes as a TAP workload with Tanzu CLI
-
-If you make modifications to the source and push to your own Git repository, then you can update the `spec.source.git` information in the `config/workload.yaml` file.
-
-When you are done developing your function app, you can simply deploy it using:
-
-```
-tanzu apps workload apply -f config/workload.yaml
-```
-
-If you would like deploy the code from tyour local working directory you can use the following command:
-
-```
-tanzu apps workload create spring-petclinic -f config/workload.yaml \
-  --local-path . \
-  --source-image <REPOSITORY-PREFIX>/spring-petclinic-source \
-  --type web
-```
