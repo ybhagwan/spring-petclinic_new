@@ -4,9 +4,9 @@
 
 ## Deploying to Kubernetes as a TAP workload with Tanzu CLI
 
-If you make modifications to the source and push to your own Git repository, then you can update the `spec.source.git` information in the `config/workload.yaml` file.
+If you make modifications to the source, push these changes to your own Git repository.
 
-When you are done developing your function app, you can simply deploy it using:
+When you are done developing your app, you can simply deploy it using:
 
 ```
 tanzu apps workload apply -f config/workload.yaml
@@ -23,18 +23,12 @@ tanzu apps workload create spring-petclinic -f config/workload.yaml \
 
 ## Accessing the app deployed to your cluster
 
-If you don't have `curl` installed it can be installed using downloads here: https://curl.se/download.html
-
 Determine the URL to use for the accessing the app by running:
 
 ```
 tanzu apps workload get spring-petclinic
 ```
 
-To invoke the deployed function run the following `curl` command in another terminal window:
-
-```
-curl <URL> -w'\n' -H 'Content-Type: text/plain' -d Fun
-```
+To access the deployed app use the URL shown under "Workload Knative Services".
 
 This depends on the TAP installation having DNS configured for the Knative ingress.

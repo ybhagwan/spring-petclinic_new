@@ -40,10 +40,14 @@ tilt down
 
 ## Accessing the app deployed to your cluster
 
-If you don't have `curl` installed it can be installed using downloads here: https://curl.se/download.html
+> While Tilt is running you can access the application at [http://localhost:8080](http://localhost:8080)
 
-To invoke the deployed function run the following `curl` command in another terminal window:
+For long-term use, determine the URL to use for the accessing the app by running:
 
 ```
-curl localhost:8080 -w'\n' -H 'Content-Type: text/plain' -d Fun
+tanzu apps workload get spring-petclinic
 ```
+
+To access the deployed app use the URL shown under "Workload Knative Services".
+
+This depends on the TAP installation having DNS configured for the Knative ingress.
