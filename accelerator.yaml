@@ -73,11 +73,20 @@ engine:
         chain:
         - type: ReplaceText
           substitutions:
-          - text: spring-petclinic template repo
-            with: "#artifactId"
+          - text: '## Running petclinic locally'
+            with: |-
+              '## Running petclinic locally
+              
+              > *Note:* The beginning of this `readme.md` file is from the [original Spring PetClinic](https://github.com/spring-projects/spring-petclinic.git) sample app.              
+              > To see how to deploy this Accelerator Sample version of Spring PetClinic, go to [Deploying to Kubernetes](#deploying-to-kubernetes)
+              '
       - include: [ "kubernetes/k8s/DEPLOYING.md" ]
         condition: "#deploymentType == 'k8s-simple'"
         chain:
+        - type: ReplaceText
+          substitutions:
+          - text: spring-petclinic
+            with: "#artifactId"
         - type: RewritePath
           rewriteTo: "'readme.md'"
       - include: [ "kubernetes/tap/DEPLOYING.md" ]

@@ -40,14 +40,12 @@ tilt down
 
 ## Accessing the app deployed to your cluster
 
-> While Tilt is running you can access the application at [http://localhost:8080](http://localhost:8080)
+While Tilt is running, you can access the application at [http://localhost:8080](http://localhost:8080)
 
-For long-term use, determine the URL to use for the accessing the app by running:
+If Tilt is not running, then you need to find the `EXTERNAL-IP` for the Kubernetes service. Run this command:
 
 ```
-tanzu apps workload get spring-petclinic
+kubectl get service spring-petclinic
 ```
 
-To access the deployed app use the URL shown under "Workload Knative Services".
-
-This depends on the TAP installation having DNS configured for the Knative ingress.
+Now, you can access the PetCLinic app at `http://<EXTERNAL-IP>`.
