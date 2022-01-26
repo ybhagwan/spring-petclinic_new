@@ -30,14 +30,14 @@ engine:
       - type: ReplaceText
         substitutions:
         - text: spring-petclinic
-          with: "#artifactId"
+          with: "#artifactId.toLowerCase()"
     - include: [ "kubernetes/k8s/deployment.yaml", "kubernetes/k8s/service.yaml" ]
       condition: "#deploymentType == 'k8s-simple'"
       chain:
       - type: ReplaceText
         substitutions:
         - text: spring-petclinic
-          with: "#artifactId"
+          with: "#artifactId.toLowerCase()"
       - type: RewritePath
         rewriteTo: "'kubernetes/' + #filename"
     - include: [ "kubernetes/k8s/Tiltfile" ]
@@ -46,7 +46,7 @@ engine:
       - type: ReplaceText
         substitutions:
         - text: spring-petclinic
-          with: "#artifactId"
+          with: "#artifactId.toLowerCase()"
       - type: RewritePath
         rewriteTo: "#filename"
     - include: [ "kubernetes/tap/workload.yaml" ]
@@ -55,7 +55,7 @@ engine:
       - type: ReplaceText
         substitutions:
         - text: ": spring-petclinic"
-          with: "': ' + #artifactId"
+          with: "': ' + #artifactId.toLowerCase()"
       - type: RewritePath
         rewriteTo: "'config/' + #filename"
     - include: [ "catalog/*.yaml" ]
@@ -64,7 +64,7 @@ engine:
       - type: ReplaceText
         substitutions:
         - text: spring-petclinic
-          with: "#artifactId"
+          with: "#artifactId.toLowerCase()"
     - name: README
       type: Combo
       onConflict: Append
@@ -86,7 +86,7 @@ engine:
         - type: ReplaceText
           substitutions:
           - text: spring-petclinic
-            with: "#artifactId"
+            with: "#artifactId.toLowerCase()"
         - type: RewritePath
           rewriteTo: "'readme.md'"
       - include: [ "kubernetes/tap/DEPLOYING.md" ]
@@ -95,6 +95,6 @@ engine:
         - type: ReplaceText
           substitutions:
           - text: spring-petclinic
-            with: "#artifactId"
+            with: "#artifactId.toLowerCase()"
         - type: RewritePath
           rewriteTo: "'readme.md'"
