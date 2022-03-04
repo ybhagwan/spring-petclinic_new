@@ -6,6 +6,7 @@ accelerator:
   - java
   - spring
   - tanzu
+  - cloud-foundry
 
   # options for the UI
   options:
@@ -16,15 +17,17 @@ accelerator:
       text: TAP workload
     - value: k8s-simple
       text: Kubernetes deployment and service
+    - value: manifest
+      text: Cloud Foundry manifest
     - value: none
-      text: Skip Kubernetes deployment
+      text: Skip deployment configuration
     defaultValue: workload
     required: true
 
 engine:
   merge:
     - include: [ "**" ]
-      exclude: [ "pom.xml", "readme.md", "kubernetes/**", "catalog/*.yaml", ".github/**", "build.gradle*", "settings.gradle*", "gradlew*", "gradle/**" ]
+      exclude: [ "pom.xml", "readme.md", "cloudfoundry/**", "kubernetes/**", "catalog/*.yaml", ".github/**", "build.gradle*", "settings.gradle*", "gradlew*", "gradle/**" ]
     - include: [ "pom.xml" ]
       chain:
       - type: ReplaceText
@@ -65,6 +68,15 @@ engine:
         substitutions:
         - text: spring-petclinic
           with: "#artifactId"
+    - include: [ "cloudfoundry/manifest.yml" ]
+      condition: "#deploymentType == 'manifest'"
+      chain:
+      - type: ReplaceText
+        substitutions:
+        - text: ": spring-petclinic"
+          with: "': ' + #artifactId"
+      - type: RewritePath
+        rewriteTo: "'config/' + #filename"
     - name: README
       type: Combo
       onConflict: Append
@@ -72,6 +84,7 @@ engine:
       - include: [ "readme.md"]
         chain:
         - type: ReplaceText
+          condition: "#deploymentType == 'k8s-simple' || #deploymentType == 'workload'"
           substitutions:
           - text: '## Running petclinic locally'
             with: |-
@@ -79,6 +92,16 @@ engine:
               
               > *Note:* The beginning of this `readme.md` file is from the [original Spring PetClinic](https://github.com/spring-projects/spring-petclinic.git) sample app.              
               > To see how to deploy this Accelerator Sample version of Spring PetClinic, go to [Deploying to Kubernetes](#deploying-to-kubernetes)
+              '
+        - type: ReplaceText
+          condition: "#deploymentType == 'manifest'"
+          substitutions:
+          - text: '## Running petclinic locally'
+            with: |-
+              '## Running petclinic locally
+              
+              > *Note:* The beginning of this `readme.md` file is from the [original Spring PetClinic](https://github.com/spring-projects/spring-petclinic.git) sample app.              
+              > To see how to deploy this Accelerator Sample version of Spring PetClinic, go to [Deploying to Cloud Foundry](#deploying-to-cloud-foundry)
               '
       - include: [ "kubernetes/k8s/DEPLOYING.md" ]
         condition: "#deploymentType == 'k8s-simple'"
@@ -91,6 +114,15 @@ engine:
           rewriteTo: "'readme.md'"
       - include: [ "kubernetes/tap/DEPLOYING.md" ]
         condition: "#deploymentType == 'workload'"
+        chain:
+        - type: ReplaceText
+          substitutions:
+          - text: spring-petclinic
+            with: "#artifactId"
+        - type: RewritePath
+          rewriteTo: "'readme.md'"
+      - include: [ "cloudfoundry/DEPLOYING.md" ]
+        condition: "#deploymentType == 'manifest'"
         chain:
         - type: ReplaceText
           substitutions:
