@@ -1,8 +1,13 @@
 name: "Scan"
 
 on:
+  push:
+    branches: [ accelerator ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ accelerator ]
   schedule:
-    - cron: '45 4 * * *'
+    - cron: '45 3 * * *'
   workflow_dispatch:
 
 jobs:
@@ -35,4 +40,4 @@ jobs:
 
     - name: Perform scanning
       if: matrix.tool == 'grype'
-      run: grype --fail-on high ./target/
+      run: grype --fail-on high ./target/spring-petclinic-2.6.0-SNAPSHOT.jar
